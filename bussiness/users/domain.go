@@ -2,7 +2,7 @@ package users
 
 import "time"
 
-type Users struct {
+type User struct {
 	ID        int
 	NIK       int
 	Password  string
@@ -11,4 +11,11 @@ type Users struct {
 	Alamat    string
 	CreatedAt time.Time
 	UpdatedAt time.Time
+}
+
+type Functions interface {
+	Created(user *User) (*User, error)
+	Update(user *User, id int) (*User, error)
+	FindByID(id int) (*User, error)
+	Deleted(id int) (*User, error)
 }
