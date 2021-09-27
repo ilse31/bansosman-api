@@ -5,7 +5,7 @@ type ServiceUsers struct {
 }
 
 func NewServe(repoUser Repository) Service {
-	return ServiceUsers{
+	return &ServiceUsers{
 		repository: repoUser,
 	}
 }
