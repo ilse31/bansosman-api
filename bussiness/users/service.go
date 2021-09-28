@@ -5,14 +5,12 @@ import (
 )
 
 type ServiceUsers struct {
-	repository      Repository
-	cacheRepository _cacheDomain.Repository
+	repository Repository
 }
 
 func NewServe(repoUser Repository, repoCache _cacheDomain.Repository) Service {
 	return &ServiceUsers{
-		repository:      repoUser,
-		cacheRepository: repoCache,
+		repository: repoUser,
 	}
 }
 

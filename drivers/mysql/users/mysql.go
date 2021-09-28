@@ -17,10 +17,12 @@ func NewRepoMysql(db *gorm.DB) users.Repository {
 }
 
 func (repo *repoUsers) Register(user *users.Domain) (*users.Domain, error) {
+	recordUsers := fromDomain(*user)
 	if err := repo.DBConnection.Create(&user).Error; err != nil {
 		return &users.Domain{}, err
 	}
-	return &users.Domain{}, nil
+	result := toDomain(recordUsers)
+	return &result, nil
 }
 func (repo *repoUsers) Update(user *users.Domain, id int) (*users.Domain, error) {
 	return &users.Domain{}, nil

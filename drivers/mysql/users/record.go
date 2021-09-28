@@ -6,7 +6,7 @@ import (
 	"gorm.io/gorm"
 )
 
-type Record struct {
+type RecordUsers struct {
 	gorm.Model
 	NIK       int
 	Name      string
@@ -16,7 +16,7 @@ type Record struct {
 	Alamat    string
 }
 
-func toDomain(rec Record) users.Domain {
+func toDomain(rec RecordUsers) users.Domain {
 	return users.Domain{
 		ID:        int(rec.ID),
 		NIK:       rec.NIK,
@@ -29,8 +29,8 @@ func toDomain(rec Record) users.Domain {
 		UpdatedAt: rec.UpdatedAt,
 	}
 }
-func fromDomain(domain users.Domain) Record {
-	return Record{
+func fromDomain(domain users.Domain) RecordUsers {
+	return RecordUsers{
 		NIK:       domain.NIK,
 		Name:      domain.Name,
 		Password:  domain.Password,
