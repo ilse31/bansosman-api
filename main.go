@@ -26,7 +26,7 @@ func InitDB(status string) *gorm.DB {
 	}
 
 	DB.AutoMigrate(
-		&_repoUsers.RecordUsers{},
+		&_repoUsers.Users{},
 	)
 
 	return DB

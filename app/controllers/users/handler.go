@@ -20,11 +20,12 @@ func NewHandler(userServ users.Service) *ControllerUsers {
 }
 
 func (handler *ControllerUsers) Register(echoConteks echo.Context) error {
-	req := new(request.UsersRegist)
+	var req request.UsersRegist
 	if err := echoConteks.Bind(&req); err != nil {
 		return echoConteks.JSON(http.StatusBadRequest, err)
 	}
-	resp, err := handler.serviceUser.Append(request.ToDomain(*req))
+	domain := request.ToDomain(req)
+	resp, err := handler.serviceUser.Append(domain)
 	if err != nil {
 		return echoConteks.JSON(http.StatusInternalServerError, err)
 	}

@@ -2,11 +2,12 @@ package users
 
 import (
 	"bansosman/bussiness/users"
+	"fmt"
 
 	"gorm.io/gorm"
 )
 
-type RecordUsers struct {
+type Users struct {
 	gorm.Model
 	NIK       int
 	Name      string
@@ -16,7 +17,8 @@ type RecordUsers struct {
 	Alamat    string
 }
 
-func toDomain(rec RecordUsers) users.Domain {
+func toDomain(rec Users) users.Domain {
+	fmt.Println(rec)
 	return users.Domain{
 		ID:        int(rec.ID),
 		NIK:       rec.NIK,
@@ -29,8 +31,8 @@ func toDomain(rec RecordUsers) users.Domain {
 		UpdatedAt: rec.UpdatedAt,
 	}
 }
-func fromDomain(domain users.Domain) RecordUsers {
-	return RecordUsers{
+func fromDomain(domain users.Domain) Users {
+	return Users{
 		NIK:       domain.NIK,
 		Name:      domain.Name,
 		Password:  domain.Password,

@@ -6,13 +6,13 @@ import (
 )
 
 type UsersResponse struct {
-	ID        int       `json:"id" form:"id"`
-	NIK       int       `json:"nik" form:"nik"`
-	Name      string    `json:"name" form:"name"`
-	Password  string    `json:"password" form:"password"`
-	FotoRumah string    `json:"foto_rumah" form:"foto_rumah"`
-	FotoDiri  string    `json:"foto_diri" form:"foto_diri"`
-	Alamat    string    `json:"alamat" form:"alamat"`
+	ID        int       `json:"id"`
+	NIK       int       `json:"nik"`
+	Name      string    `json:"name"`
+	Password  string    `json:"password"`
+	FotoRumah string    `json:"foto_rumah"`
+	FotoDiri  string    `json:"foto_diri"`
+	Alamat    string    `json:"alamat"`
 	CreatedAt time.Time `json:"created_at"`
 	UpdatedAt time.Time `json:"updated_at"`
 }
