@@ -16,18 +16,21 @@ func NewRepoMysql(db *gorm.DB) users.Repository {
 	}
 }
 
-func (repo *repoUsers) Created(user *users.Domain) (*users.Domain, error) {
-	recordBook := fromDomain(*user)
+func (repo *repoUsers) Register(user *users.Domain) (*users.Domain, error) {
+	if err := repo.DBConnection.Create(&user).Error; err != nil {
+		return &users.Domain{}, err
+	}
+	return &users.Domain{}, nil
 }
 func (repo *repoUsers) Update(user *users.Domain, id int) (*users.Domain, error) {
-
+	return &users.Domain{}, nil
 }
 func (repo *repoUsers) FindByID(id int) (*users.Domain, error) {
-
+	return &users.Domain{}, nil
 }
 func (repo *repoUsers) FindAll(generalSearch string, alamat string) []users.Domain {
-
+	return []users.Domain{}
 }
 func (repo *repoUsers) Delete(id int) (*users.Domain, error) {
-
+	return &users.Domain{}, nil
 }

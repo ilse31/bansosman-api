@@ -6,6 +6,7 @@ import "time"
 type Domain struct {
 	ID        int
 	NIK       int
+	Name      string
 	Password  string
 	FotoRumah string
 	FotoDiri  string
@@ -25,7 +26,7 @@ type Service interface {
 
 //Ke Database
 type Repository interface {
-	Created(user *Domain) (*Domain, error)
+	Register(user *Domain) (*Domain, error)
 	Update(user *Domain, id int) (*Domain, error)
 	FindByID(id int) (*Domain, error)
 	FindAll(generalSearch string, alamat string) []Domain

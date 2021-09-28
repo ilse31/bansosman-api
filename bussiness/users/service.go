@@ -18,7 +18,7 @@ func NewServe(repoUser Repository, repoCache _cacheDomain.Repository) Service {
 
 //ini add ke db
 func (servUser *ServiceUsers) Append(user *Domain) (*Domain, error) {
-	result, err := servUser.repository.Created(user)
+	result, err := servUser.repository.Register(user)
 	if err != nil {
 		return &Domain{}, err
 	}
