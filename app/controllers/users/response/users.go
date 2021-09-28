@@ -5,7 +5,7 @@ import (
 	"time"
 )
 
-type UsersResponse struct {
+type Users struct {
 	ID        int       `json:"id"`
 	NIK       int       `json:"nik"`
 	Name      string    `json:"name"`
@@ -17,8 +17,8 @@ type UsersResponse struct {
 	UpdatedAt time.Time `json:"updated_at"`
 }
 
-func FromDomain(domain users.Domain) UsersResponse {
-	return UsersResponse{
+func FromDomain(domain users.Domain) Users {
+	return Users{
 		ID:        domain.ID,
 		NIK:       domain.NIK,
 		Name:      domain.Name,

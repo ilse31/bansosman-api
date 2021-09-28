@@ -1,32 +1,42 @@
 package request
 
-import "bansosman/bussiness/users"
+import (
+	"bansosman/bussiness/users"
+	"time"
+)
 
 type UsersRegist struct {
-	NIK       int    `json:"nik" form:"nik"`
-	Name      string `json:"name" form:"name"`
-	Password  string `json:"password" form:"password"`
-	FotoRumah string `json:"foto_rumah" form:"foto_rumah"`
-	FotoDiri  string `json:"foto_diri" form:"foto_diri"`
-	Alamat    string `json:"alamat" form:"alamat"`
+	NIK       int    `json:"nik"`
+	Name      string `json:"name"`
+	Password  string `json:"password"`
+	FotoRumah string `json:"foto_rumah"`
+	FotoDiri  string `json:"foto_diri"`
+	Alamat    string `json:"alamat"`
 }
 
 type UsersUpdate struct {
-	NIK       int    `json:"nik" form:"nik"`
-	Name      string `json:"name" form:"name"`
-	Password  string `json:"password" form:"password"`
-	FotoRumah string `json:"foto_rumah" form:"foto_rumah"`
-	FotoDiri  string `json:"foto_diri" form:"foto_diri"`
-	Alamat    string `json:"alamat" form:"alamat"`
+	NIK       int    `json:"nik" `
+	Name      string `json:"name"`
+	Password  string `json:"password" `
+	FotoRumah string `json:"foto_rumah" `
+	FotoDiri  string `json:"foto_diri"`
+	Alamat    string `json:"alamat"`
+}
+type UsersLogin struct {
+	NIK      int    `json:"nik"`
+	Password string `json:"password"`
 }
 
-func ToDomain(req UsersRegist) *users.Domain {
+func ToDomain(request UsersRegist) *users.Domain {
 	return &users.Domain{
-		NIK:       req.NIK,
-		Name:      req.Name,
-		Password:  req.Password,
-		FotoRumah: req.FotoRumah,
-		FotoDiri:  req.FotoDiri,
-		Alamat:    req.Alamat,
+		ID:        0,
+		NIK:       request.NIK,
+		Name:      request.Name,
+		Password:  request.Password,
+		FotoRumah: request.FotoRumah,
+		FotoDiri:  request.FotoDiri,
+		Alamat:    request.Alamat,
+		CreatedAt: time.Time{},
+		UpdatedAt: time.Time{},
 	}
 }

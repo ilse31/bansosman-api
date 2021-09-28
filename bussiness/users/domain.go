@@ -22,6 +22,7 @@ type Service interface {
 	FindByID(id int) (*Domain, error)
 	FindAll(generalSearch string) []Domain
 	Deleted(id int) (*Domain, error)
+	Login(nik int, pass string) (string, error)
 }
 
 //Ke Database

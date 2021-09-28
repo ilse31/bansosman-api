@@ -17,7 +17,7 @@ func NewRepoMysql(db *gorm.DB) users.Repository {
 }
 
 func (repo *repoUsers) Register(user *users.Domain) (*users.Domain, error) {
-	recordUsers := fromDomain(*user)
+	recordUsers := FromDomain(*user)
 	if err := repo.DBConnection.Create(&recordUsers).Error; err != nil {
 		return &users.Domain{}, err
 	}

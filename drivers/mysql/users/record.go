@@ -17,7 +17,7 @@ type Users struct {
 	Alamat    string
 }
 
-func toDomain(rec Users) users.Domain {
+func ToDomain(rec Users) users.Domain {
 	fmt.Println(rec)
 	return users.Domain{
 		ID:        int(rec.ID),
@@ -31,7 +31,7 @@ func toDomain(rec Users) users.Domain {
 		UpdatedAt: rec.UpdatedAt,
 	}
 }
-func fromDomain(domain users.Domain) Users {
+func FromDomain(domain users.Domain) Users {
 	return Users{
 		NIK:       domain.NIK,
 		Name:      domain.Name,
