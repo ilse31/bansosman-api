@@ -32,6 +32,21 @@ func ToDomain(rec Users) users.Domain {
 		UpdatedAt: rec.UpdatedAt,
 	}
 }
+
+func (rec *Users) toDomain() users.Domain {
+	return users.Domain{
+		NIK:       rec.NIK,
+		Name:      rec.Name,
+		Email:     rec.Email,
+		Password:  rec.Password,
+		FotoRumah: rec.FotoRumah,
+		FotoDiri:  rec.FotoDiri,
+		Alamat:    rec.Alamat,
+		CreatedAt: rec.CreatedAt,
+		UpdatedAt: rec.UpdatedAt,
+	}
+}
+
 func FromDomain(domain users.Domain) Users {
 	return Users{
 		NIK:       domain.NIK,
