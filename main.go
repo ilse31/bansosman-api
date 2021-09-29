@@ -15,7 +15,7 @@ import (
 )
 
 func InitDB(status string) *gorm.DB {
-	db := "kampusmerdeka"
+	db := "bansosman"
 	connectionString := fmt.Sprintf("root:@tcp(127.0.0.1:3306)/%s?parseTime=True", db)
 
 	var err error

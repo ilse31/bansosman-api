@@ -12,5 +12,9 @@ type HandlerRoute struct {
 
 func (handler *HandlerRoute) RouteRegister(e *echo.Echo) {
 	user := e.Group("users")
-	user.POST("/register", handler.UsersHandler.Register)
+	user.POST("/register", handler.UsersHandler.Create)
+	user.GET("/all", handler.UsersHandler.FindAll)
+	user.GET("/:id", handler.UsersHandler.FindID)
+	user.DELETE("/:id", handler.UsersHandler.Delete)
+	user.PUT("/update", handler.UsersHandler.Update)
 }
