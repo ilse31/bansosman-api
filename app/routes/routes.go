@@ -11,6 +11,11 @@ type HandlerRoute struct {
 }
 
 func (handler *HandlerRoute) RouteRegister(e *echo.Echo) {
+
+	//crud users
 	user := e.Group("users")
-	user.POST("/register", handler.UsersHandler.Register)
+	user.POST("/register", handler.UsersHandler.Create)
+	user.GET("/alluser", handler.UsersHandler.ReadAll)
+	user.GET("/:id", handler.UsersHandler.ReadID)
+	user.PUT("/updates", handler.UsersHandler.Update)
 }

@@ -7,6 +7,7 @@ type Domain struct {
 	ID        int
 	NIK       int
 	Name      string
+	Email     string
 	Password  string
 	FotoRumah string
 	FotoDiri  string
@@ -17,19 +18,18 @@ type Domain struct {
 
 //Logical Interface
 type Service interface {
-	Append(user *Domain) (*Domain, error)
-	Update(user *Domain, id int) (*Domain, error)
+	Append(game *Domain) (*Domain, error)
+	FindAll() ([]Domain, error)
 	FindByID(id int) (*Domain, error)
-	FindAll(generalSearch string) []Domain
-	Deleted(id int) (*Domain, error)
-	Login(nik int, pass string) (string, error)
+	Update(game *Domain) (*Domain, error)
+	Delete(game *Domain, id int) (string, error)
 }
 
 //Ke Database
 type Repository interface {
-	Register(user *Domain) (*Domain, error)
-	Update(user *Domain, id int) (*Domain, error)
+	Insert(game *Domain) (*Domain, error)
+	FindAll() ([]Domain, error)
 	FindByID(id int) (*Domain, error)
-	FindAll(generalSearch string, alamat string) []Domain
-	Delete(id int) (*Domain, error)
+	Update(game *Domain) (*Domain, error)
+	Delete(game *Domain, id int) (string, error)
 }
