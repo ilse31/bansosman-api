@@ -21,8 +21,13 @@ type Service interface {
 	Append(game *Domain) (*Domain, error)
 	FindAll() ([]Domain, error)
 	FindByID(id int) (*Domain, error)
+<<<<<<< HEAD
 	Update(game *Domain) (*Domain, error)
 	Delete(game *Domain, id int) (string, error)
+=======
+	FindAll(generalSearch string) []Domain
+	Deleted(id int) (*Domain, error)
+>>>>>>> bb11f13760677954a5180cb5a72ff710b2d46945
 }
 
 //Ke Database

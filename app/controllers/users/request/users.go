@@ -19,13 +19,13 @@ type UsersUpdate struct {
 	NIK       int    `json:"nik"`
 	Name      string `json:"name"`
 	Email     string `json:"email"`
-	Password  string `json:"password"`
-	FotoRumah string `json:"foto_rumah"`
+	Password  string `json:"password" `
+	FotoRumah string `json:"foto_rumah" `
 	FotoDiri  string `json:"foto_diri"`
 	Alamat    string `json:"alamat"`
 }
 type UsersLogin struct {
-	NIK      int    `json:"nik"`
+	Email    string `json:"Email"`
 	Password string `json:"password"`
 }
 
@@ -40,7 +40,12 @@ func ToDomain(request UsersRegist) *users.Domain {
 		Alamat:    request.Alamat,
 	}
 }
+<<<<<<< HEAD
 func ToDomainUpdate(request UsersUpdate) *users.Domain {
+=======
+
+func ToDomainupd(request UsersUpdate) *users.Domain {
+>>>>>>> bb11f13760677954a5180cb5a72ff710b2d46945
 	return &users.Domain{
 		ID:        request.ID,
 		NIK:       request.NIK,

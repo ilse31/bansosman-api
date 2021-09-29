@@ -4,7 +4,11 @@ type ServiceUsers struct {
 	repository Repository
 }
 
+<<<<<<< HEAD
 func NewService(repoGame Repository) Service {
+=======
+func NewServe(repoUser Repository) Service {
+>>>>>>> bb11f13760677954a5180cb5a72ff710b2d46945
 	return &ServiceUsers{
 		repository: repoGame,
 	}
