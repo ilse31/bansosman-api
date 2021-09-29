@@ -2,7 +2,6 @@ package request
 
 import (
 	"bansosman/bussiness/users"
-	"time"
 )
 
 type UsersRegist struct {
@@ -29,14 +28,11 @@ type UsersLogin struct {
 
 func ToDomain(request UsersRegist) *users.Domain {
 	return &users.Domain{
-		ID:        0,
 		NIK:       request.NIK,
 		Name:      request.Name,
 		Password:  request.Password,
 		FotoRumah: request.FotoRumah,
 		FotoDiri:  request.FotoDiri,
 		Alamat:    request.Alamat,
-		CreatedAt: time.Time{},
-		UpdatedAt: time.Time{},
 	}
 }

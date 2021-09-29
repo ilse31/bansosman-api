@@ -1,14 +1,10 @@
 package users
 
-import (
-	_cacheDomain "bansosman/bussiness/cache"
-)
-
 type ServiceUsers struct {
 	repository Repository
 }
 
-func NewServe(repoUser Repository, repoCache _cacheDomain.Repository) Service {
+func NewServe(repoUser Repository) Service {
 	return &ServiceUsers{
 		repository: repoUser,
 	}
