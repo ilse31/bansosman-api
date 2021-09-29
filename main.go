@@ -15,7 +15,7 @@ import (
 )
 
 func InitDB(status string) *gorm.DB {
-	db := "kampusmerdeka"
+	db := "bansosman"
 	connectionString := fmt.Sprintf("root:@tcp(127.0.0.1:3306)/%s?parseTime=True", db)
 
 	var err error
@@ -38,7 +38,7 @@ func main() {
 	logger.LogMiddlewareInit(e)
 	// factory of domain
 	usersRepo := _repoUsers.NewRepoMysql(db)
-	usersServe := _servBooks.NewServe(usersRepo, nil)
+	usersServe := _servBooks.NewServe(usersRepo)
 	userHandler := _handlerUser.NewHandler(usersServe)
 	// initial of routes
 	routesInit := _routes.HandlerRoute{
