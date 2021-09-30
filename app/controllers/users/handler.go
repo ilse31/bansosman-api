@@ -73,8 +73,8 @@ func (handler *ControllerUsers) Delete(echoContext echo.Context) error {
 	if err != nil {
 		return echoContext.JSON(http.StatusBadRequest, err)
 	}
-	game, err1 := handler.serviceUser.FindByID(id)
-	result, err2 := handler.serviceUser.Delete(game, id)
+	user, err1 := handler.serviceUser.FindByID(id)
+	result, err2 := handler.serviceUser.Delete(user, id)
 
 	if err1 != nil {
 		return echoContext.JSON(http.StatusNotFound, err1)
