@@ -33,10 +33,10 @@ func FromDomain(domain users.Domain) Users {
 	}
 }
 
-func NewResponseArray(users []users.Domain) []Users {
+func NewResponseArray(modelGames []users.Domain) []Users {
 	var response []Users
 
-	for _, val := range users {
+	for _, val := range modelGames {
 		response = append(response, FromDomain(val))
 	}
 	return response
