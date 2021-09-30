@@ -15,8 +15,7 @@ func (handler *HandlerRoute) RouteRegister(e *echo.Echo) {
 	//crud users
 	user := e.Group("users")
 	user.POST("/register", handler.UsersHandler.Create)
-	user.GET("/all", handler.UsersHandler.ReadAll)
+	user.GET("/alluser", handler.UsersHandler.ReadAll)
 	user.GET("/:id", handler.UsersHandler.ReadID)
-	user.DELETE("/:id", handler.UsersHandler.Delete)
-	user.PUT("/update", handler.UsersHandler.Update)
+	user.PUT("/updates", handler.UsersHandler.Update)
 }
