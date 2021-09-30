@@ -73,34 +73,14 @@ func (handler *ControllerUsers) Delete(echoContext echo.Context) error {
 	if err != nil {
 		return echoContext.JSON(http.StatusBadRequest, err)
 	}
-	game, err1 := handler.serviceUser.FindByID(id)
-	result, err2 := handler.serviceUser.Delete(game, id)
+	user, err1 := handler.serviceUser.FindByID(id)
+	result, err2 := handler.serviceUser.Delete(user, id)
 
 	if err1 != nil {
 		return echoContext.JSON(http.StatusNotFound, err1)
 	} else if err2 != nil {
 		return echoContext.JSON(http.StatusBadRequest, err2)
 	}
-	return echoContext.JSON(http.StatusOK, response.FromDomain(*result))
-}
 
-func (handler *ControllerUsers) FindAll(echoConteks echo.Context) error {
-	users, err := handler.serviceUser.FindAll()
-	if err != nil {
-		return echoConteks.JSON(http.StatusBadRequest, err)
-	}
-	return echoConteks.JSON(http.StatusOK, response.NewResponseArray(users))
-}
-
-func (handler *ControllerUsers) FindID(echoConteks echo.Context) error {
-	id := echoConteks.Param("id")
-	idc, err := strconv.Atoi(id)
-	if err != nil {
-		return echoConteks.JSON(http.StatusBadRequest, err)
-	}
-	respon, err := handler.serviceUser.FindByID(idc)
-	if err != nil {
-		return echoConteks.JSON(http.StatusBadRequest, err)
-	}
-	return echoConteks.JSON(http.StatusOK, response.FromDomain(*respon))
+	return echoContext.JSON(http.StatusOK, result)
 }
