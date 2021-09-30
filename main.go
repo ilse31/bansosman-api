@@ -38,7 +38,7 @@ func main() {
 	logger.LogMiddlewareInit(e)
 	// factory of domain
 	usersRepo := _repoUsers.NewRepoMysql(db)
-	usersServe := _servBooks.NewServe(usersRepo)
+	usersServe := _servBooks.NewService(usersRepo)
 	userHandler := _handlerUser.NewHandler(usersServe)
 	// initial of routes
 	routesInit := _routes.HandlerRoute{
