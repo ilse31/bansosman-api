@@ -66,3 +66,11 @@ func (repo *repoUsers) Delete(users *users.Domain, id int) (string, error) {
 	}
 	return "Deleted.", nil
 }
+func (repo *repoUsers) GetByName(name string) (users.Domain, error) {
+	rec := Users{}
+	err := repo.DBConnection.First(&rec, "name = ?", name).Error
+	if err != nil {
+		return users.Domain{}, err
+	}
+	return rec.toDomain(), nil
+}
