@@ -20,6 +20,6 @@ func (handler *HandlerRoute) RouteRegister(e *echo.Echo) {
 	user.GET("/alluser", handler.UsersHandler.ReadAll)
 	user.GET("/:id", handler.UsersHandler.ReadID)
 	user.PUT("/updates", handler.UsersHandler.Update)
-
+	//login
 	user.GET("/login", handler.UsersHandler.Login)
 }

@@ -17,8 +17,10 @@ func NewService(repoUser Repository, jwtauth *middleware.ConfigJwt) Service {
 	}
 }
 
-func (servUser *ServiceUsers) Append(game *Domain) (*Domain, error) {
-	result, err := servUser.repository.Insert(game)
+func (servUser *ServiceUsers) Append(user *Domain) (*Domain, error) {
+	hashPass, _ := enkrips.Hash(user.Password)
+	user.Password = string(hashPass)
+	result, err := servUser.repository.Insert(user)
 	if err != nil {
 		return &Domain{}, err
 	}
@@ -42,16 +44,16 @@ func (servUser *ServiceUsers) FindByID(id int) (*Domain, error) {
 	return result, nil
 }
 
-func (servUser *ServiceUsers) Update(game *Domain) (*Domain, error) {
-	result, err := servUser.repository.Update(game)
+func (servUser *ServiceUsers) Update(user *Domain) (*Domain, error) {
+	result, err := servUser.repository.Update(user)
 	if err != nil {
 		return &Domain{}, err
 	}
 	return result, nil
 }
 
-func (servUser *ServiceUsers) Delete(game *Domain, id int) (string, error) {
-	result, err := servUser.repository.Delete(game, id)
+func (servUser *ServiceUsers) Delete(user *Domain, id int) (string, error) {
+	result, err := servUser.repository.Delete(user, id)
 	if err != nil {
 		return "Fail to delete.", err
 	}

@@ -10,9 +10,3 @@ type Response struct {
 		KasusMeni int    `json:"Kasus_Meni"`
 	} `json:"attributes"`
 }
-
-// func (resp *Response) toDomain() covid.Domain {
-// 	return covid.Domain{
-// 		Attributes.FID: resp.Attributes.Fid,
-// 	}
-// }
