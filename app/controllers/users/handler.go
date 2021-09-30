@@ -38,7 +38,7 @@ func (handler *ControllerUsers) Update(echoContext echo.Context) error {
 	if err := echoContext.Bind(&req); err != nil {
 		return echoContext.JSON(http.StatusBadRequest, err)
 	}
-	domain := request.ToDomainupd(req)
+	domain := request.ToDomainUpdate(req)
 	resp, err := handler.serviceUser.Update(domain)
 	if err != nil {
 		return echoContext.JSON(http.StatusInternalServerError, err)
