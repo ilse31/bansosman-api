@@ -40,12 +40,8 @@ func ToDomain(request UsersRegist) *users.Domain {
 		Alamat:    request.Alamat,
 	}
 }
-<<<<<<< HEAD
-func ToDomainUpdate(request UsersUpdate) *users.Domain {
-=======
 
 func ToDomainupd(request UsersUpdate) *users.Domain {
->>>>>>> bb11f13760677954a5180cb5a72ff710b2d46945
 	return &users.Domain{
 		ID:        request.ID,
 		NIK:       request.NIK,
