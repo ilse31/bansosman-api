@@ -14,7 +14,7 @@ type Users struct {
 	Email     string
 	Password  string
 	FotoRumah string
-	FotoDiri  string
+	Gaji      int
 	Alamat    string
 }
 
@@ -26,7 +26,7 @@ func ToDomain(rec Users) users.Domain {
 		Email:     rec.Email,
 		Password:  rec.Password,
 		FotoRumah: rec.FotoRumah,
-		FotoDiri:  rec.FotoDiri,
+		Gaji:      rec.Gaji,
 		Alamat:    rec.Alamat,
 		CreatedAt: rec.CreatedAt,
 		UpdatedAt: rec.UpdatedAt,
@@ -40,7 +40,7 @@ func (rec *Users) toDomain() users.Domain {
 		Email:     rec.Email,
 		Password:  rec.Password,
 		FotoRumah: rec.FotoRumah,
-		FotoDiri:  rec.FotoDiri,
+		Gaji:      rec.Gaji,
 		Alamat:    rec.Alamat,
 		CreatedAt: rec.CreatedAt,
 		UpdatedAt: rec.UpdatedAt,
@@ -54,7 +54,7 @@ func FromDomain(domain users.Domain) Users {
 		Email:     domain.Email,
 		Password:  domain.Password,
 		FotoRumah: domain.FotoRumah,
-		FotoDiri:  domain.FotoDiri,
+		Gaji:      domain.Gaji,
 		Alamat:    domain.Alamat,
 	}
 }
@@ -66,7 +66,7 @@ func FromDomainUpdate(domain users.Domain) Users {
 		Email:     domain.Email,
 		Password:  domain.Password,
 		FotoRumah: domain.FotoRumah,
-		FotoDiri:  domain.FotoDiri,
+		Gaji:      domain.Gaji,
 		Alamat:    domain.Alamat,
 	}
 }

@@ -10,7 +10,7 @@ type UsersRegist struct {
 	Email     string `json:"email"`
 	Password  string `json:"password"`
 	FotoRumah string `json:"foto_rumah"`
-	FotoDiri  string `json:"foto_diri"`
+	Gaji      int    `json:"gaji"`
 	Alamat    string `json:"alamat"`
 }
 
@@ -21,7 +21,7 @@ type UsersUpdate struct {
 	Email     string `json:"email"`
 	Password  string `json:"password"`
 	FotoRumah string `json:"foto_rumah"`
-	FotoDiri  string `json:"foto_diri"`
+	Gaji      int    `json:"gaji"`
 	Alamat    string `json:"alamat"`
 }
 type UsersLogin struct {
@@ -36,7 +36,7 @@ func ToDomain(request UsersRegist) *users.Domain {
 		Email:     request.Email,
 		Password:  request.Password,
 		FotoRumah: request.FotoRumah,
-		FotoDiri:  request.FotoDiri,
+		Gaji:      request.Gaji,
 		Alamat:    request.Alamat,
 	}
 }
@@ -48,7 +48,7 @@ func ToDomainUpdate(request UsersUpdate) *users.Domain {
 		Email:     request.Email,
 		Password:  request.Password,
 		FotoRumah: request.FotoRumah,
-		FotoDiri:  request.FotoDiri,
+		Gaji:      request.Gaji,
 		Alamat:    request.Alamat,
 	}
 }

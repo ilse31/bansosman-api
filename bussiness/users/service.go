@@ -45,6 +45,8 @@ func (servUser *ServiceUsers) FindByID(id int) (*Domain, error) {
 }
 
 func (servUser *ServiceUsers) Update(user *Domain) (*Domain, error) {
+	hashPass, _ := enkrips.Hash(user.Password)
+	user.Password = string(hashPass)
 	result, err := servUser.repository.Update(user)
 	if err != nil {
 		return &Domain{}, err

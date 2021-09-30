@@ -10,7 +10,7 @@ type Domain struct {
 	Email     string
 	Password  string
 	FotoRumah string
-	FotoDiri  string
+	Gaji      int
 	Alamat    string
 	CreatedAt time.Time
 	UpdatedAt time.Time
