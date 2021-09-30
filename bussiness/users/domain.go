@@ -18,18 +18,20 @@ type Domain struct {
 
 //Logical Interface
 type Service interface {
-	Append(game *Domain) (*Domain, error)
+	Append(user *Domain) (*Domain, error)
 	FindAll() ([]Domain, error)
 	FindByID(id int) (*Domain, error)
-	Update(game *Domain) (*Domain, error)
-	Delete(game *Domain, id int) (string, error)
+	Update(user *Domain) (*Domain, error)
+	Delete(user *Domain, id int) (string, error)
+	Login(name, password string) (string, error)
 }
 
 //Ke Database
 type Repository interface {
-	Insert(game *Domain) (*Domain, error)
+	Insert(user *Domain) (*Domain, error)
 	FindAll() ([]Domain, error)
 	FindByID(id int) (*Domain, error)
-	Update(game *Domain) (*Domain, error)
-	Delete(game *Domain, id int) (string, error)
+	Update(user *Domain) (*Domain, error)
+	Delete(user *Domain, id int) (string, error)
+	GetByName(name string) (Domain, error)
 }
