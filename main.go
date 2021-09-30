@@ -14,6 +14,14 @@ import (
 	"gorm.io/gorm"
 )
 
+// func init() {
+// 	viper.SetConfigFile(`./app/json.json`)
+// 	err := viper.ReadInConfig()
+// 	if err != nil {
+// 		panic(err)
+// 	}
+// }
+
 func InitDB(status string) *gorm.DB {
 	db := "bansosman"
 	connectionString := fmt.Sprintf("root:@tcp(127.0.0.1:3306)/%s?parseTime=True", db)
@@ -36,13 +44,21 @@ func main() {
 	db := InitDB("")
 	e := echo.New()
 	logger.LogMiddlewareInit(e)
+	jwSecret := "qwerty12345"
+	jwtint := 2
+	configJWT := logger.ConfigJwt{
+		SecretJwT: jwSecret,
+		Expired:   int64(jwtint),
+	}
+
 	// factory of domain
 	usersRepo := _repoUsers.NewRepoMysql(db)
-	usersServe := _servBooks.NewService(usersRepo)
+	usersServe := _servBooks.NewService(usersRepo, &configJWT)
 	userHandler := _handlerUser.NewHandler(usersServe)
 	// initial of routes
 	routesInit := _routes.HandlerRoute{
-		UsersHandler: *userHandler,
+		UsersHandler:  *userHandler,
+		JwtMiddleware: configJWT.Init(),
 	}
 	routesInit.RouteRegister(e)
 

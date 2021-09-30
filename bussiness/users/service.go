@@ -1,12 +1,19 @@
 package users
 
+import (
+	"bansosman/app/middleware"
+	"bansosman/helper/enkrips"
+)
+
 type ServiceUsers struct {
 	repository Repository
+	jwtAuth    *middleware.ConfigJwt
 }
 
-func NewService(repoGame Repository) Service {
+func NewService(repoUser Repository, jwtauth *middleware.ConfigJwt) Service {
 	return &ServiceUsers{
-		repository: repoGame,
+		repository: repoUser,
+		jwtAuth:    jwtauth,
 	}
 }
 
@@ -52,15 +59,13 @@ func (servUser *ServiceUsers) Delete(game *Domain, id int) (string, error) {
 }
 
 func (servUser *ServiceUsers) Login(name, password string) (string, error) {
-	// userDom, err := servUser.repository.GetByName(name)
-	// if err != nil {
-	// 	return "error", err
-
-	// }
-	// if !enkrips.ValidateHash(password, userDom.Password) {
-	// 	return "error", nil
-	// }
-	// token := servUser.jwtAuth.GenerateToken(int(userDom.ID))
-	// return "token", err
-	return "token", nil
+	userDomain, err := servUser.repository.GetByName(name)
+	if err != nil {
+		return "", err
+	}
+	if !enkrips.ValidateHash(password, userDomain.Password) {
+		return "error", nil
+	}
+	token := servUser.jwtAuth.GenerateToken(int(userDomain.ID))
+	return token, nil
 }

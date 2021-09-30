@@ -4,10 +4,12 @@ import (
 	"bansosman/app/controllers/users"
 
 	"github.com/labstack/echo/v4"
+	"github.com/labstack/echo/v4/middleware"
 )
 
 type HandlerRoute struct {
-	UsersHandler users.ControllerUsers
+	UsersHandler  users.ControllerUsers
+	JwtMiddleware middleware.JWTConfig
 }
 
 func (handler *HandlerRoute) RouteRegister(e *echo.Echo) {
@@ -18,4 +20,6 @@ func (handler *HandlerRoute) RouteRegister(e *echo.Echo) {
 	user.GET("/alluser", handler.UsersHandler.ReadAll)
 	user.GET("/:id", handler.UsersHandler.ReadID)
 	user.PUT("/updates", handler.UsersHandler.Update)
+
+	user.GET("/login", handler.UsersHandler.Login)
 }

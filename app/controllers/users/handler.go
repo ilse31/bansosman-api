@@ -84,3 +84,18 @@ func (handler *ControllerUsers) Delete(echoContext echo.Context) error {
 
 	return echoContext.JSON(http.StatusOK, result)
 }
+
+func (handler *ControllerUsers) Login(echoConteks echo.Context) error {
+	req := request.UsersLogin{}
+	if err := echoConteks.Bind(&req); err != nil {
+		return echoConteks.JSON(http.StatusBadRequest, err)
+	}
+	token, err := handler.serviceUser.Login(req.Name, req.Password)
+	if err != nil {
+		return echoConteks.JSON(http.StatusInternalServerError, err)
+	}
+	respon := struct {
+		Token string `json:"token"`
+	}{Token: token}
+	return echoConteks.JSON(http.StatusOK, respon)
+}

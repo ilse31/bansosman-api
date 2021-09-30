@@ -25,7 +25,7 @@ type UsersUpdate struct {
 	Alamat    string `json:"alamat"`
 }
 type UsersLogin struct {
-	NIK      int    `json:"nik"`
+	Name     string `json:"name"`
 	Password string `json:"password"`
 }
 
