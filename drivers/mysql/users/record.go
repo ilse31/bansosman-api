@@ -10,7 +10,7 @@ type Users struct {
 	gorm.Model
 	ID        uint `gorm:"primaryKey"`
 	NIK       int
-	Name      string
+	Name      string `gorm:"unique"`
 	Email     string
 	Password  string
 	FotoRumah string
