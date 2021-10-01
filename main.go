@@ -1,11 +1,27 @@
 package main
 
 import (
+	//!handler
+	_handlerAdmin "bansosman/app/controllers/admin"
+	_handlerApbn "bansosman/app/controllers/apbn"
 	_handlerUser "bansosman/app/controllers/users"
-	logger "bansosman/app/middleware"
+
+	//!middleware
+	mid "bansosman/app/middleware"
+
+	//!routes
 	_routes "bansosman/app/routes"
-	_servBooks "bansosman/bussiness/users"
+
+	//!service
+	_servAdmin "bansosman/bussiness/admin"
+	_servApn "bansosman/bussiness/apbn"
+	_servUser "bansosman/bussiness/users"
+
+	//!Repository
+	_adminRepo "bansosman/drivers/mysql/admin"
+	_repoApbn "bansosman/drivers/mysql/apbn"
 	_repoUsers "bansosman/drivers/mysql/users"
+
 	"fmt"
 	"log"
 
@@ -35,30 +51,47 @@ func InitDB(status string) *gorm.DB {
 
 	DB.AutoMigrate(
 		&_repoUsers.Users{},
+		&_adminRepo.Admins{},
+		&_repoApbn.Apbns{},
 	)
+	roles := []_adminRepo.Roles{{ID: 1, Name: "Operator"}, {ID: 2, Name: "Owner"}}
 
+	DB.Create(&roles)
 	return DB
 }
 
 func main() {
 	db := InitDB("")
 	e := echo.New()
-	logger.LogMiddlewareInit(e)
+	mid.LogMiddlewareInit(e)
 	jwSecret := "qwerty12345"
 	jwtint := 2
-	configJWT := logger.ConfigJwt{
+	configJWT := mid.ConfigJwt{
 		SecretJwT: jwSecret,
 		Expired:   int64(jwtint),
 	}
 
-	// factory of domain
+	//* factory of domain
+	//user
 	usersRepo := _repoUsers.NewRepoMysql(db)
-	usersServe := _servBooks.NewService(usersRepo, &configJWT)
+	usersServe := _servUser.NewService(usersRepo, &configJWT)
 	userHandler := _handlerUser.NewHandler(usersServe)
-	// initial of routes
+	// ?admin
+	adminRepo := _adminRepo.NewMySQLRepository(db)
+	adminServe := _servAdmin.NewUserService(adminRepo, &configJWT)
+	adminHandler := _handlerAdmin.NewUserController(adminServe)
+	// ?apbn
+	apbnRepo := _repoApbn.NewRepoMysql(db)
+	apbnserve := _servApn.NewService(apbnRepo)
+	apbnHandler := _handlerApbn.NewHandler(apbnserve)
+
+	//* initial of routes
 	routesInit := _routes.HandlerRoute{
-		UsersHandler:  *userHandler,
+
 		JwtMiddleware: configJWT.Init(),
+		AdminHandler:  *adminHandler,
+		UsersHandler:  *userHandler,
+		Apbnhandler:   *apbnHandler,
 	}
 	routesInit.RouteRegister(e)
 

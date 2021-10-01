@@ -15,8 +15,8 @@ func NewRepoMysql(db *gorm.DB) users.Repository {
 		DBConnection: db,
 	}
 }
-func (repo *repoUsers) Insert(game *users.Domain) (*users.Domain, error) {
-	recordUsers := FromDomain(*game)
+func (repo *repoUsers) Insert(user *users.Domain) (*users.Domain, error) {
+	recordUsers := FromDomain(*user)
 	if err := repo.DBConnection.Create(&recordUsers).Error; err != nil {
 		return &users.Domain{}, err
 	}
@@ -28,8 +28,8 @@ func (repo *repoUsers) Insert(game *users.Domain) (*users.Domain, error) {
 	return record, nil
 }
 
-func (repo *repoUsers) Update(game *users.Domain) (*users.Domain, error) {
-	recordUsers := FromDomainUpdate(*game)
+func (repo *repoUsers) Update(user *users.Domain) (*users.Domain, error) {
+	recordUsers := FromDomainUpdate(*user)
 	if err := repo.DBConnection.Where("id=?", recordUsers.ID).Updates(&recordUsers).Error; err != nil {
 		return &users.Domain{}, err
 	}
