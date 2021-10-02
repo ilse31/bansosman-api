@@ -2,7 +2,7 @@ package main
 
 import (
 	//!handler
-	_handlerAdmin "bansosman/app/controllers/admin"
+
 	_handlerApbn "bansosman/app/controllers/apbn"
 	_handlerUser "bansosman/app/controllers/users"
 
@@ -13,13 +13,14 @@ import (
 	_routes "bansosman/app/routes"
 
 	//!service
-	_servAdmin "bansosman/bussiness/admin"
 	_servApn "bansosman/bussiness/apbn"
 	_servUser "bansosman/bussiness/users"
 
 	//!Repository
-	_adminRepo "bansosman/drivers/mysql/admin"
 	_repoApbn "bansosman/drivers/mysql/apbn"
+	_repoDerahs "bansosman/drivers/mysql/daerah"
+
+	// _repoKab "bansosman/drivers/mysql/kabupaten"
 	_repoUsers "bansosman/drivers/mysql/users"
 
 	"fmt"
@@ -51,12 +52,10 @@ func InitDB(status string) *gorm.DB {
 
 	DB.AutoMigrate(
 		&_repoUsers.Users{},
-		&_adminRepo.Admins{},
 		&_repoApbn.Apbns{},
+		&_repoDerahs.Daerahs{},
+		// &_repoKab.Kabs{},
 	)
-	roles := []_adminRepo.Roles{{ID: 1, Name: "Operator"}, {ID: 2, Name: "Owner"}}
-
-	DB.Create(&roles)
 	return DB
 }
 
@@ -77,21 +76,23 @@ func main() {
 	usersServe := _servUser.NewService(usersRepo, &configJWT)
 	userHandler := _handlerUser.NewHandler(usersServe)
 	// ?admin
-	adminRepo := _adminRepo.NewMySQLRepository(db)
-	adminServe := _servAdmin.NewUserService(adminRepo, &configJWT)
-	adminHandler := _handlerAdmin.NewUserController(adminServe)
 	// ?apbn
 	apbnRepo := _repoApbn.NewRepoMysql(db)
 	apbnserve := _servApn.NewService(apbnRepo)
 	apbnHandler := _handlerApbn.NewHandler(apbnserve)
 
+	//?daerah
+	// daerahRepo := _repoDerahs.NewRepoMysql(db)
+	// daerahServe := _serveDaerah.NewService(daerahRepo)
+	// daerahHandler := _serveDaerah.NewService(daerahServe)
+
 	//* initial of routes
 	routesInit := _routes.HandlerRoute{
 
 		JwtMiddleware: configJWT.Init(),
-		AdminHandler:  *adminHandler,
 		UsersHandler:  *userHandler,
 		Apbnhandler:   *apbnHandler,
+		// Daerahhandler: *daerahHandler,
 	}
 	routesInit.RouteRegister(e)
 

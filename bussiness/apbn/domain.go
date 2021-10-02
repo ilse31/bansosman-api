@@ -5,23 +5,23 @@ import (
 )
 
 type Domain struct {
-	ID         uint
+	ID         int
 	DanaBansos int
 	CreatedAt  time.Time
 	UpdatedAt  time.Time
 }
 
 type Service interface {
-	Append(daerah *Domain) (*Domain, error)
+	Append(apbns *Domain) (*Domain, error)
 	FindAll() ([]Domain, error)
 	FindByID(id int) (*Domain, error)
-	Update(daerah *Domain) (*Domain, error)
-	Delete(daerah *Domain, id int) (string, error)
+	Update(apbns *Domain) (*Domain, error)
+	Delete(apbns *Domain, id int) (string, error)
 }
 type Repository interface {
-	Insert(user *Domain) (*Domain, error)
+	Insert(apbns *Domain) (*Domain, error)
 	FindAll() ([]Domain, error)
 	FindByID(id int) (*Domain, error)
-	Update(user *Domain) (*Domain, error)
-	Delete(user *Domain, id int) (string, error)
+	Update(apbns *Domain) (*Domain, error)
+	Delete(apbns *Domain, id int) (string, error)
 }

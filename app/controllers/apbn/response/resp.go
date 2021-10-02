@@ -14,7 +14,7 @@ type Apbn struct {
 
 func FromDom(domain apbn.Domain) Apbn {
 	return Apbn{
-		ID:         domain.ID,
+		ID:         uint(domain.ID),
 		DanaBansos: domain.DanaBansos,
 		CreatedAt:  domain.CreatedAt,
 		UpdatedAt:  domain.UpdatedAt,

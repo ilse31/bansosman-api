@@ -2,6 +2,7 @@ package routes
 
 import (
 	"bansosman/app/controllers/apbn"
+	"bansosman/app/controllers/daerah"
 	"bansosman/app/controllers/users"
 
 	"github.com/labstack/echo/v4"
@@ -11,6 +12,7 @@ import (
 type HandlerRoute struct {
 	UsersHandler  users.ControllerUsers
 	Apbnhandler   apbn.ApbnController
+	Daerahhandler daerah.Daerahcontroller
 	JwtMiddleware middleware.JWTConfig
 }
 
@@ -19,6 +21,13 @@ func (handler *HandlerRoute) RouteRegister(e *echo.Echo) {
 	//apbn
 	apbns := e.Group("apbn")
 	apbns.POST("/input", handler.Apbnhandler.Create)
+	apbns.GET("/all", handler.Apbnhandler.ReadAll)
+	apbns.GET("/:id", handler.Apbnhandler.ReadID)
+	apbns.PUT("/update", handler.Apbnhandler.Update)
+	apbns.DELETE("/:id", handler.Apbnhandler.Delete)
+	//daerah
+	daerah := e.Group("daerah")
+	daerah.POST("/input", handler.Daerahhandler.Create)
 	//Create Account
 	user := e.Group("users")
 	user.POST("/register", handler.UsersHandler.Create)
