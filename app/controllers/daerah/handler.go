@@ -5,6 +5,7 @@ import (
 	"bansosman/app/controllers/daerah/response"
 	"bansosman/bussiness/daerah"
 	"net/http"
+	"strconv"
 
 	"github.com/labstack/echo/v4"
 )
@@ -32,4 +33,27 @@ func (handler *Daerahcontroller) Create(echoConteks echo.Context) error {
 		return echoConteks.JSON(http.StatusInternalServerError, err)
 	}
 	return echoConteks.JSON(http.StatusOK, response.FromDom(*resp))
+}
+
+func (handler *Daerahcontroller) ReadAll(echoconteks echo.Context) error {
+	user, err := handler.service.FindAll()
+	if err != nil {
+		return echoconteks.JSON(http.StatusBadRequest, err)
+	}
+	return echoconteks.JSON(http.StatusOK, response.NewResponseArray(user))
+}
+
+func (handler *Daerahcontroller) ReadID(echoconteks echo.Context) error {
+	idstr := echoconteks.Param("id")
+	id, err := strconv.Atoi(idstr)
+
+	if err != nil {
+		return echoconteks.JSON(http.StatusBadRequest, err)
+	}
+	resp, err := handler.service.FindByID(id)
+
+	if err != nil {
+		return echoconteks.JSON(http.StatusNotFound, err)
+	}
+	return echoconteks.JSON(http.StatusOK, response.FromDom(*resp))
 }

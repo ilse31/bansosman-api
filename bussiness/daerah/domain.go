@@ -4,7 +4,8 @@ import "time"
 
 type Domain struct {
 	ID        int
-	IdApbn    int
+	ApbnId    int
+	Apbns     int
 	Provinsi  string
 	Kabupaten string
 	CreatedAt time.Time
@@ -12,16 +13,16 @@ type Domain struct {
 }
 
 type Service interface {
-	Append(daerah *Domain) (*Domain, error)
+	Append(daerahs *Domain) (*Domain, error)
 	FindAll() ([]Domain, error)
 	FindByID(id int) (*Domain, error)
-	Update(daerah *Domain) (*Domain, error)
-	Delete(daerah *Domain, id int) (string, error)
+	Update(daerahs *Domain) (*Domain, error)
+	Delete(daerahs *Domain, id int) (string, error)
 }
 type Repository interface {
-	Insert(daerah *Domain) (*Domain, error)
+	Insert(daerahs *Domain) (*Domain, error)
 	FindAll() ([]Domain, error)
 	FindByID(id int) (*Domain, error)
-	Update(daerah *Domain) (*Domain, error)
-	Delete(daerah *Domain, id int) (string, error)
+	Update(daerahs *Domain) (*Domain, error)
+	Delete(daerahs *Domain, id int) (string, error)
 }

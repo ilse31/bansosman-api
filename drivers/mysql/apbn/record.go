@@ -2,7 +2,6 @@ package apbn
 
 import (
 	"bansosman/bussiness/apbn"
-	"bansosman/drivers/mysql/daerah"
 
 	"gorm.io/gorm"
 )
@@ -11,7 +10,6 @@ type Apbns struct {
 	gorm.Model
 	ID         uint `gorm:"primaryKey"`
 	DanaBansos int
-	Daerah     daerah.Daerahs `gorm:"foreignKey:IdApbn"`
 }
 
 func ToDomain(rec Apbns) apbn.Domain {

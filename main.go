@@ -4,6 +4,7 @@ import (
 	//!handler
 
 	_handlerApbn "bansosman/app/controllers/apbn"
+	_handlerDaerah "bansosman/app/controllers/daerah"
 	_handlerUser "bansosman/app/controllers/users"
 
 	//!middleware
@@ -14,13 +15,13 @@ import (
 
 	//!service
 	_servApn "bansosman/bussiness/apbn"
+	_servedaerah "bansosman/bussiness/daerah"
 	_servUser "bansosman/bussiness/users"
 
 	//!Repository
 	_repoApbn "bansosman/drivers/mysql/apbn"
 	_repoDerahs "bansosman/drivers/mysql/daerah"
 
-	// _repoKab "bansosman/drivers/mysql/kabupaten"
 	_repoUsers "bansosman/drivers/mysql/users"
 
 	"fmt"
@@ -82,9 +83,9 @@ func main() {
 	apbnHandler := _handlerApbn.NewHandler(apbnserve)
 
 	//?daerah
-	// daerahRepo := _repoDerahs.NewRepoMysql(db)
-	// daerahServe := _serveDaerah.NewService(daerahRepo)
-	// daerahHandler := _serveDaerah.NewService(daerahServe)
+	daerahRepo := _repoDerahs.NewRepoMysql(db)
+	daerahServe := _servedaerah.NewServe(daerahRepo)
+	daerahHandler := _handlerDaerah.Newhandler(daerahServe)
 
 	//* initial of routes
 	routesInit := _routes.HandlerRoute{
@@ -92,7 +93,7 @@ func main() {
 		JwtMiddleware: configJWT.Init(),
 		UsersHandler:  *userHandler,
 		Apbnhandler:   *apbnHandler,
-		// Daerahhandler: *daerahHandler,
+		Daerahhandler: *daerahHandler,
 	}
 	routesInit.RouteRegister(e)
 

@@ -28,6 +28,8 @@ func (handler *HandlerRoute) RouteRegister(e *echo.Echo) {
 	//daerah
 	daerah := e.Group("daerah")
 	daerah.POST("/input", handler.Daerahhandler.Create)
+	daerah.GET("/all", handler.Daerahhandler.ReadAll)
+	daerah.GET("/:id", handler.Daerahhandler.ReadID)
 	//Create Account
 	user := e.Group("users")
 	user.POST("/register", handler.UsersHandler.Create)
