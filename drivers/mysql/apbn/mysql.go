@@ -39,12 +39,12 @@ func (repo *repoApbn) FindByID(id int) (*apbn.Domain, error) {
 	return &result, nil
 }
 
-func (repo *repoApbn) Update(apbns *apbn.Domain) (*apbn.Domain, error) {
-	recordApbn := FromDomainUpdate(*apbns)
-	if err := repo.DBConn.Where("id=?", recordApbn.ID).Updates(&recordApbn).Error; err != nil {
+func (repo *repoApbn) Update(apbns *apbn.Domain, id int) (*apbn.Domain, error) {
+	recordApbn := FromDomain(*apbns)
+	if err := repo.DBConn.Where("id=?", id).Updates(&recordApbn).Error; err != nil {
 		return &apbn.Domain{}, err
 	}
-	record, err := repo.FindByID(int(recordApbn.ID))
+	record, err := repo.FindByID(int(id))
 	if err != nil {
 		return &apbn.Domain{}, err
 	}

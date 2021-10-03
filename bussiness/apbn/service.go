@@ -35,8 +35,8 @@ func (servApBn *ServiceAPBn) FindByID(id int) (*Domain, error) {
 	return result, nil
 }
 
-func (servApBn *ServiceAPBn) Update(user *Domain) (*Domain, error) {
-	result, err := servApBn.repository.Update(user)
+func (servApBn *ServiceAPBn) Update(user *Domain, id int) (*Domain, error) {
+	result, err := servApBn.repository.Update(user, id)
 	if err != nil {
 		return &Domain{}, err
 	}

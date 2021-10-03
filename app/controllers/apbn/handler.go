@@ -36,15 +36,21 @@ func (handler *ApbnController) Create(echoConteks echo.Context) error {
 }
 
 func (handler *ApbnController) Update(echoOcnteks echo.Context) error {
-	var req requset.ApbnUpd
+	idstr := echoOcnteks.Param("id")
+	id, err := strconv.Atoi(idstr)
+
+	if err != nil {
+		return echoOcnteks.JSON(http.StatusBadRequest, err)
+	}
+	var req requset.ApbnReq
 
 	if err := echoOcnteks.Bind(&req); err != nil {
 		return echoOcnteks.JSON(http.StatusBadRequest, err)
 	}
 
-	domain := requset.ToDomainUpdate(req)
+	domain := requset.ToDomain(req)
 
-	resp, err := handler.serviceApbn.Update(domain)
+	resp, err := handler.serviceApbn.Update(domain, id)
 
 	if err != nil {
 		return echoOcnteks.JSON(http.StatusInternalServerError, err)
@@ -87,7 +93,7 @@ func (handler *ApbnController) Delete(echoConteks echo.Context) error {
 	if err1 != nil {
 		return echoConteks.JSON(http.StatusNotFound, err1)
 	} else if err2 != nil {
-		return echoConteks.JSON(http.StatusBadRequest, err2)
+		return echoConteks.JSON(http.StatusBadRequest, result)
 	}
 
 	return echoConteks.JSON(http.StatusOK, result)

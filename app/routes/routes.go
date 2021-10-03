@@ -23,7 +23,7 @@ func (handler *HandlerRoute) RouteRegister(e *echo.Echo) {
 	apbns.POST("/input", handler.Apbnhandler.Create)
 	apbns.GET("/all", handler.Apbnhandler.ReadAll)
 	apbns.GET("/:id", handler.Apbnhandler.ReadID)
-	apbns.PUT("/update", handler.Apbnhandler.Update)
+	apbns.PUT("/update/:id", handler.Apbnhandler.Update)
 	apbns.DELETE("/:id", handler.Apbnhandler.Delete)
 	//daerah
 	daerah := e.Group("daerah")
@@ -40,7 +40,7 @@ func (handler *HandlerRoute) RouteRegister(e *echo.Echo) {
 	users.DELETE("/:id", handler.UsersHandler.Delete)
 	users.GET("/alluser", handler.UsersHandler.ReadAll)
 	users.GET("/:id", handler.UsersHandler.ReadID)
-	users.PUT("/updates", handler.UsersHandler.Update)
+	users.PUT("/updates/:id", handler.UsersHandler.Update)
 
 	//admin
 
