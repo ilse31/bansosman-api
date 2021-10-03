@@ -1,6 +1,6 @@
 package covidApi
 
-type Response struct {
+type Provinsi struct {
 	Attributes struct {
 		Fid       int    `json:"FID"`
 		KodeProvi int    `json:"Kode_Provi"`
