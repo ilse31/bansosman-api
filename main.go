@@ -82,7 +82,7 @@ func main() {
 	usersRepo := _repoUsers.NewRepoMysql(db)
 	usersServe := _servUser.NewService(usersRepo, &configJWT)
 	userHandler := _handlerUser.NewHandler(usersServe)
-	//?geolocation
+	//?api
 	GeoRepo := _GeoRepo.NewIpAPI()
 	// ?admin
 	adminRepo := _repoAdmin.NewMySQLRepository(db)

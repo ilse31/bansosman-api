@@ -59,8 +59,8 @@ func (handler *Daerahcontroller) ReadID(echoconteks echo.Context) error {
 	return echoconteks.JSON(http.StatusOK, response.FromDom(*resp))
 }
 
-func (ctrl *Daerahcontroller) GetByIP(c echo.Context) error {
-	data, err := ctrl.service.GetByIP()
+func (handler *Daerahcontroller) GetByIP(c echo.Context) error {
+	data, err := handler.service.GetByIP()
 	if len(data) == 0 {
 		return controllers.NewErrorResponse(c, http.StatusNotFound, err)
 	}
