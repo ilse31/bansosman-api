@@ -66,3 +66,16 @@ func (repo *repoDaerah) Delete(daerahs *daerah.Domain, id int) (string, error) {
 	}
 	return "Deleted.", nil
 }
+
+func (mysqlRepo *repoDaerah) FindByCity(city string) ([]daerah.Domain, error) {
+	rec := []Daerahs{}
+	err := mysqlRepo.DBConn.Find(&rec, "city = ?", city).Error
+	if err != nil {
+		return []daerah.Domain{}, err
+	}
+	domainAddresses := []daerah.Domain{}
+	for _, val := range rec {
+		domainAddresses = append(domainAddresses, val.toDomain())
+	}
+	return domainAddresses, nil
+}

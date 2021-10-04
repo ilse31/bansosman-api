@@ -25,6 +25,7 @@ import (
 	_repoApbn "bansosman/drivers/mysql/apbn"
 	_repoDerahs "bansosman/drivers/mysql/daerah"
 	_repoUsers "bansosman/drivers/mysql/users"
+	_GeoRepo "bansosman/drivers/thirdparty/ipapi"
 
 	"fmt"
 	"log"
@@ -81,6 +82,8 @@ func main() {
 	usersRepo := _repoUsers.NewRepoMysql(db)
 	usersServe := _servUser.NewService(usersRepo, &configJWT)
 	userHandler := _handlerUser.NewHandler(usersServe)
+	//?geolocation
+	GeoRepo := _GeoRepo.NewIpAPI()
 	// ?admin
 	adminRepo := _repoAdmin.NewMySQLRepository(db)
 	adminServe := _ServAdmin.NewUserService(adminRepo, &configJWT)
@@ -92,7 +95,7 @@ func main() {
 
 	//?daerah
 	daerahRepo := _repoDerahs.NewRepoMysql(db)
-	daerahServe := _servedaerah.NewServe(daerahRepo)
+	daerahServe := _servedaerah.NewServe(daerahRepo, GeoRepo)
 	daerahHandler := _handlerDaerah.Newhandler(daerahServe)
 
 	//* initial of routes

@@ -5,7 +5,6 @@ import (
 	"bansosman/app/controllers/apbn"
 	"bansosman/app/controllers/daerah"
 	"bansosman/app/controllers/users"
-	m "bansosman/app/middleware"
 
 	"github.com/labstack/echo/v4"
 	"github.com/labstack/echo/v4/middleware"
@@ -21,11 +20,13 @@ type HandlerRoute struct {
 
 func (handler *HandlerRoute) RouteRegister(e *echo.Echo) {
 
+	//
+
 	//Create Account
 	creates := e.Group("create")
 	//user
-	creates.POST("/register", handler.UsersHandler.Create)
-	creates.GET("/login", handler.UsersHandler.Login)
+	creates.POST("/regist", handler.UsersHandler.Create)
+	creates.GET("/log", handler.UsersHandler.Login)
 	//admin
 	creates.POST("/register", handler.AdminController.Register)
 	creates.GET("/login", handler.AdminController.Login)
@@ -35,11 +36,12 @@ func (handler *HandlerRoute) RouteRegister(e *echo.Echo) {
 	daerah.POST("/input", handler.Daerahhandler.Create)
 	daerah.GET("/all", handler.Daerahhandler.ReadAll)
 	daerah.GET("/:id", handler.Daerahhandler.ReadID)
+	daerah.GET("/find-ip", handler.Daerahhandler.GetByIP)
 
 	//auth val
-	users := e.Group("user", middleware.JWTWithConfig(handler.JwtMiddleware))
+	users := e.Group("user")
 	users.DELETE("/:id", handler.UsersHandler.Delete)
-	users.GET("/alluser", handler.UsersHandler.ReadAll, m.RoleValidation("admin"))
+	users.GET("/alluser", handler.UsersHandler.ReadAll)
 	users.GET("/:id", handler.UsersHandler.ReadID)
 	users.PUT("/updates/:id", handler.UsersHandler.Update)
 

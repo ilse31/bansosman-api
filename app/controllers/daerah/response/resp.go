@@ -10,7 +10,7 @@ type Daerah struct {
 	ApbnId    int `json:"apbn_id"`
 	Apbn      int
 	Provinsi  string    `json:"provinsi"`
-	Kabupaten string    `json:"kabupaten"`
+	City      string    `json:"City"`
 	CreatedAt time.Time `json:"created_at"`
 	UpdatedAt time.Time `json:"updated_at"`
 }
@@ -21,7 +21,7 @@ func FromDom(domain daerah.Domain) Daerah {
 		ApbnId:    domain.ApbnId,
 		Apbn:      domain.Apbns,
 		Provinsi:  domain.Provinsi,
-		Kabupaten: domain.Kabupaten,
+		City:      domain.City,
 		CreatedAt: domain.CreatedAt,
 		UpdatedAt: domain.UpdatedAt,
 	}

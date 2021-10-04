@@ -1,6 +1,7 @@
 package daerah
 
 import (
+	"bansosman/app/controllers"
 	"bansosman/app/controllers/daerah/request"
 	"bansosman/app/controllers/daerah/response"
 	"bansosman/bussiness/daerah"
@@ -56,4 +57,15 @@ func (handler *Daerahcontroller) ReadID(echoconteks echo.Context) error {
 		return echoconteks.JSON(http.StatusNotFound, err)
 	}
 	return echoconteks.JSON(http.StatusOK, response.FromDom(*resp))
+}
+
+func (ctrl *Daerahcontroller) GetByIP(c echo.Context) error {
+	data, err := ctrl.service.GetByIP()
+	if len(data) == 0 {
+		return controllers.NewErrorResponse(c, http.StatusNotFound, err)
+	}
+	if err != nil {
+		return controllers.NewErrorResponse(c, http.StatusInternalServerError, err)
+	}
+	return controllers.NewSuccessResponse(c, data)
 }

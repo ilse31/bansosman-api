@@ -1,12 +1,18 @@
 package daerah
 
+import (
+	"bansosman/bussiness/geolocation"
+)
+
 type serviceDaerah struct {
 	repository Repository
+	geoRepo    geolocation.Repository
 }
 
-func NewServe(repoDaerah Repository) Service {
+func NewServe(repoDaerah Repository, geoRepos geolocation.Repository) Service {
 	return &serviceDaerah{
 		repository: repoDaerah,
+		geoRepo:    geoRepos,
 	}
 }
 
@@ -49,4 +55,17 @@ func (servApBn *serviceDaerah) Delete(daerahs *Domain, id int) (string, error) {
 		return "Fail to delete.", err
 	}
 	return result, nil
+}
+
+func (serv *serviceDaerah) GetByIP() ([]Domain, error) {
+	lok, err := serv.geoRepo.GetLocationByIP()
+	if err != nil {
+		return []Domain{}, err
+	}
+
+	dataDaerah, error1 := serv.repository.FindByCity(lok.City)
+	if error1 != nil {
+		return []Domain{}, error1
+	}
+	return dataDaerah, err
 }
