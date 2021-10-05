@@ -67,13 +67,13 @@ func (repo *repoDaerah) Delete(daerahs *daerah.Domain, id int) (string, error) {
 	return "Deleted.", nil
 }
 
-func (mysqlRepo *repoDaerah) FindByCity(city string) ([]daerah.Domain, error) {
+func (mysqlRepo *repoDaerah) FindByCity(city string) ([]daerah.Domain2, error) {
 	rec := []Daerahs{}
 	err := mysqlRepo.DBConn.Find(&rec, "city = ?", city).Error
 	if err != nil {
-		return []daerah.Domain{}, err
+		return []daerah.Domain2{}, err
 	}
-	domainAddresses := []daerah.Domain{}
+	domainAddresses := []daerah.Domain2{}
 	for _, val := range rec {
 		domainAddresses = append(domainAddresses, val.toDomain())
 	}

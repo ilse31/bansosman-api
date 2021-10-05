@@ -57,15 +57,15 @@ func (servApBn *serviceDaerah) Delete(daerahs *Domain, id int) (string, error) {
 	return result, nil
 }
 
-func (serv *serviceDaerah) GetByIP() ([]Domain, error) {
+func (serv *serviceDaerah) GetByIP() ([]Domain2, error) {
 	lok, err := serv.geoRepo.GetLocationByIP()
 	if err != nil {
-		return []Domain{}, err
+		return []Domain2{}, err
 	}
 
 	dataDaerah, error1 := serv.repository.FindByCity(lok.City)
 	if error1 != nil {
-		return []Domain{}, error1
+		return []Domain2{}, error1
 	}
 	return dataDaerah, err
 }

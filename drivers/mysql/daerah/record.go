@@ -28,8 +28,8 @@ func ToDomain(rec Daerahs) daerah.Domain {
 	}
 }
 
-func (rec *Daerahs) toDomain() daerah.Domain {
-	return daerah.Domain{
+func (rec *Daerahs) toDomain() daerah.Domain2 {
+	return daerah.Domain2{
 		ID:       int(rec.ID),
 		ApbnId:   rec.ApbnId,
 		Provinsi: rec.Provinsi,
