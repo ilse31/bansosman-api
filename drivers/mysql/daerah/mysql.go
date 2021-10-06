@@ -39,7 +39,7 @@ func (repo *repoDaerah) FindByID(id int) (*daerah.Domain, error) {
 	return &result, nil
 }
 
-func (repo *repoDaerah) Update(daerahs *daerah.Domain) (*daerah.Domain, error) {
+func (repo *repoDaerah) Update(daerahs *daerah.Domain, id int) (*daerah.Domain, error) {
 	recordApbn := FromDomain(*daerahs)
 	if err := repo.DBConn.Where("id=?", recordApbn.ID).Updates(&recordApbn).Error; err != nil {
 		return &daerah.Domain{}, err

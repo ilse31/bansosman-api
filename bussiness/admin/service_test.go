@@ -35,13 +35,13 @@ func TestRegister(t *testing.T) {
 	t.Run("Valid Test", func(t *testing.T) {
 		mockAdminRepo.On("Register", mock.Anything).Return(adminDom, nil).Once()
 
-		inputUser := admin.Domain{
-			Username: "testUser",
+		inputAdmin := admin.Domain{
+			Username: "iniadmin",
 			Password: "test",
 			RoleID:   1,
 		}
 
-		resp, err := adminService.Register(&inputUser)
+		resp, err := adminService.Register(&inputAdmin)
 
 		assert.Nil(t, err)
 		assert.Equal(t, adminDom, resp)
@@ -49,13 +49,13 @@ func TestRegister(t *testing.T) {
 	t.Run("Invalid Test | Duplicate User", func(t *testing.T) {
 		mockAdminRepo.On("Register", mock.Anything).Return(admin.Domain{}, assert.AnError).Once()
 
-		inputUser := admin.Domain{
-			Username: "testUser",
+		inputAdmin := admin.Domain{
+			Username: "iniadmin",
 			Password: "test",
 			RoleID:   1,
 		}
 
-		resp, err := adminService.Register(&inputUser)
+		resp, err := adminService.Register(&inputAdmin)
 
 		assert.NotNil(t, err)
 		assert.NotEqual(t, adminDom, resp)
@@ -63,13 +63,13 @@ func TestRegister(t *testing.T) {
 	t.Run("Invalid Test | Internal Error", func(t *testing.T) {
 		mockAdminRepo.On("Register", mock.Anything).Return(admin.Domain{}, assert.AnError).Once()
 
-		inputUser := admin.Domain{
-			Username: "testUser",
+		inputAdmin := admin.Domain{
+			Username: "iniadmin",
 			Password: "test",
 			RoleID:   1,
 		}
 
-		resp, err := adminService.Register(&inputUser)
+		resp, err := adminService.Register(&inputAdmin)
 
 		assert.NotNil(t, err)
 		assert.NotEqual(t, adminDom, resp)
@@ -81,7 +81,7 @@ func TestLogin(t *testing.T) {
 		mockAdminRepo.On("GetByUsername", mock.AnythingOfType("string")).Return(adminDom, nil).Once()
 
 		input := admin.Domain{
-			Username: "testUser",
+			Username: "iniadmin",
 			Password: "test",
 		}
 
@@ -94,7 +94,7 @@ func TestLogin(t *testing.T) {
 		mockAdminRepo.On("GetByUsername", mock.AnythingOfType("string")).Return(admin.Domain{}, assert.AnError).Once()
 
 		input := admin.Domain{
-			Username: "testUser",
+			Username: "iniadmin",
 			Password: "test",
 		}
 
@@ -108,7 +108,7 @@ func TestLogin(t *testing.T) {
 		mockEnkrips.On("ValidateHash", mock.AnythingOfType("string"), mock.AnythingOfType("string")).Return("", assert.AnError)
 
 		input := admin.Domain{
-			Username: "testUser",
+			Username: "iniadmin",
 			Password: "wrong",
 		}
 
