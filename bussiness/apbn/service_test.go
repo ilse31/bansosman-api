@@ -89,7 +89,6 @@ func TestDelete(t *testing.T) {
 		apbnReposit.On("Delete", mock.AnythingOfType("*apbn.Domain"), mock.AnythingOfType("int")).Return("Data Deleted.", nil).Once()
 
 		result, err := apbnServ.Delete(&apbnDom, apbnDom.ID)
-
 		assert.Nil(t, err)
 		assert.Equal(t, "Data Deleted.", result)
 	})
