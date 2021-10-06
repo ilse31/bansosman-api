@@ -1,66 +1,113 @@
 package main
 
 import (
+	//!handler
+
+	_handlerAdmin "bansosman/app/controllers/admin"
+	_handlerApbn "bansosman/app/controllers/apbn"
+	_handlerDaerah "bansosman/app/controllers/daerah"
 	_handlerUser "bansosman/app/controllers/users"
-	logger "bansosman/app/middleware"
+
+	//!middleware
+	mid "bansosman/app/middleware"
+
+	//!routes
 	_routes "bansosman/app/routes"
-	_servBooks "bansosman/bussiness/users"
+
+	//!service
+	_ServAdmin "bansosman/bussiness/admin"
+	_servApn "bansosman/bussiness/apbn"
+	_servedaerah "bansosman/bussiness/daerah"
+	_servUser "bansosman/bussiness/users"
+
+	//!Repository
+	_repoAdmin "bansosman/drivers/mysql/admin"
+	_repoApbn "bansosman/drivers/mysql/apbn"
+	_repoDerahs "bansosman/drivers/mysql/daerah"
 	_repoUsers "bansosman/drivers/mysql/users"
-	"fmt"
+	_GeoRepo "bansosman/drivers/thirdparty/ipapi"
+
+	//mysql
+	_dbDriver "bansosman/drivers/mysql"
 	"log"
 
 	"github.com/labstack/echo/v4"
-	"gorm.io/driver/mysql"
+	"github.com/spf13/viper"
 	"gorm.io/gorm"
 )
 
-// func init() {
-// 	viper.SetConfigFile(`./app/json.json`)
-// 	err := viper.ReadInConfig()
-// 	if err != nil {
-// 		panic(err)
-// 	}
-// }
-
-func InitDB(status string) *gorm.DB {
-	db := "bansosman"
-	connectionString := fmt.Sprintf("root:@tcp(127.0.0.1:3306)/%s?parseTime=True", db)
-
-	var err error
-	DB, err := gorm.Open(mysql.Open(connectionString), &gorm.Config{})
-
+func init() {
+	viper.SetConfigName("docker-config")
+	viper.AddConfigPath("./app/config/")
+	viper.AutomaticEnv()
+	viper.SetConfigType("json")
+	err := viper.ReadInConfig()
 	if err != nil {
 		panic(err)
 	}
+}
 
-	DB.AutoMigrate(
+func dbMigrate(db *gorm.DB) {
+	db.AutoMigrate(
 		&_repoUsers.Users{},
+		&_repoApbn.Apbns{},
+		&_repoDerahs.Daerahs{},
+		&_repoAdmin.Admins{},
+		// &_repoKab.Kabs{},
 	)
-
-	return DB
+	roles := []_repoAdmin.Roles{{ID: 1, Name: "Owner"}, {ID: 2, Name: "Admin"}}
+	db.Create(&roles)
 }
 
 func main() {
-	db := InitDB("")
+
+	configDB := _dbDriver.ConfigDB{
+		DB_Username: viper.GetString(`database.user`),
+		DB_Password: viper.GetString(`database.pass`),
+		DB_Host:     viper.GetString(`database.host`),
+		DB_Port:     viper.GetString(`database.port`),
+		DB_Database: viper.GetString(`database.name`),
+	}
+	db := configDB.InitDB()
+	dbMigrate(db)
 	e := echo.New()
-	logger.LogMiddlewareInit(e)
-	jwSecret := "qwerty12345"
-	jwtint := 2
-	configJWT := logger.ConfigJwt{
-		SecretJwT: jwSecret,
-		Expired:   int64(jwtint),
+	mid.LogMiddlewareInit(e)
+	configJWT := mid.ConfigJwt{
+		SecretJwT: viper.GetString(`jwt.secret`),
+		Expired:   int64(viper.GetInt(`jwt.expired`)),
 	}
 
-	// factory of domain
+	//* factory of domain
+	//user
 	usersRepo := _repoUsers.NewRepoMysql(db)
-	usersServe := _servBooks.NewService(usersRepo, &configJWT)
+	usersServe := _servUser.NewService(usersRepo, &configJWT)
 	userHandler := _handlerUser.NewHandler(usersServe)
-	// initial of routes
+	//?api
+	GeoRepo := _GeoRepo.NewIpAPI()
+	// ?admin
+	adminRepo := _repoAdmin.NewMySQLRepository(db)
+	adminServe := _ServAdmin.NewadminService(adminRepo, &configJWT)
+	adminHandler := _handlerAdmin.NewUserController(adminServe)
+	// ?apbn
+	apbnRepo := _repoApbn.NewRepoMysql(db)
+	apbnserve := _servApn.NewService(apbnRepo)
+	apbnHandler := _handlerApbn.NewHandler(apbnserve)
+
+	//?daerah
+	daerahRepo := _repoDerahs.NewRepoMysql(db)
+	daerahServe := _servedaerah.NewServe(daerahRepo, GeoRepo)
+	daerahHandler := _handlerDaerah.Newhandler(daerahServe)
+
+	//* initial of routes
 	routesInit := _routes.HandlerRoute{
-		UsersHandler:  *userHandler,
-		JwtMiddleware: configJWT.Init(),
+
+		JwtMiddleware:   configJWT.Init(),
+		AdminController: *adminHandler,
+		UsersHandler:    *userHandler,
+		Apbnhandler:     *apbnHandler,
+		Daerahhandler:   *daerahHandler,
 	}
 	routesInit.RouteRegister(e)
 
-	log.Fatal(e.Start(":8000"))
+	log.Fatal(e.Start(":8080"))
 }

@@ -30,16 +30,24 @@ func (handler *ControllerUsers) Create(echoContext echo.Context) error {
 	if err != nil {
 		return echoContext.JSON(http.StatusInternalServerError, err)
 	}
-	return echoContext.JSON(http.StatusOK, response.FromDomain(*resp))
+	return echoContext.JSON(http.StatusOK, map[string]interface{}{
+		"message": "sukses daftar dalam program",
+		"data":    response.FromDomain(*resp),
+	})
 }
 
 func (handler *ControllerUsers) Update(echoContext echo.Context) error {
-	var req request.UsersUpdate
+	idstr := echoContext.Param("id")
+	id, err := strconv.Atoi(idstr)
+	if err != nil {
+		return echoContext.JSON(http.StatusBadRequest, err)
+	}
+	var req request.UsersRegist
 	if err := echoContext.Bind(&req); err != nil {
 		return echoContext.JSON(http.StatusBadRequest, err)
 	}
-	domain := request.ToDomainUpdate(req)
-	resp, err := handler.serviceUser.Update(domain)
+	domain := request.ToDomain(req)
+	resp, err := handler.serviceUser.Update(domain, id)
 	if err != nil {
 		return echoContext.JSON(http.StatusInternalServerError, err)
 	}
