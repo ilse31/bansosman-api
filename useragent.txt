@@ -1,9 +1,0 @@
-vektra mokery
-
-acuan 
-
-product relasi dari game dan seller
-
-
-1.admin (elang)
-2.user,apbn,daerah(waldo)
