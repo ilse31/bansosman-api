@@ -6,19 +6,19 @@ import (
 	"bansosman/helper/enkrips"
 )
 
-type userService struct {
+type adminServices struct {
 	userRepository Repository
 	jwtAuth        *middleware.ConfigJwt
 }
 
-func NewUserService(userRepo Repository, jwtauth *middleware.ConfigJwt) Service {
-	return &userService{
+func NewadminService(userRepo Repository, jwtauth *middleware.ConfigJwt) Service {
+	return &adminServices{
 		userRepository: userRepo,
 		jwtAuth:        jwtauth,
 	}
 }
 
-func (service *userService) Register(userData *Domain) (Domain, error) {
+func (service *adminServices) Register(userData *Domain) (Domain, error) {
 
 	hashedPassword, _ := enkrips.Hash(userData.Password)
 	userData.Password = string(hashedPassword)
@@ -32,7 +32,7 @@ func (service *userService) Register(userData *Domain) (Domain, error) {
 	return res, nil
 }
 
-func (service *userService) Login(username, password string) (string, error) {
+func (service *adminServices) Login(username, password string) (string, error) {
 	userDomain, err := service.userRepository.GetByUsername(username)
 	if err != nil {
 		return "", bussiness.ErrInvalidLoginInfo
@@ -46,7 +46,7 @@ func (service *userService) Login(username, password string) (string, error) {
 	return token, nil
 }
 
-func (service *userService) GetByID(id uint) (Domain, error) {
+func (service *adminServices) GetByID(id uint) (Domain, error) {
 	userDomain, err := service.userRepository.GetByID(id)
 	if err != nil {
 		return Domain{}, err

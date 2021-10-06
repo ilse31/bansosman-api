@@ -1,11 +1,14 @@
+#builder
 FROM golang:1.17-alpine AS builder
 
+RUN apk update && apk upgrade && \
+    apk --update add git make
 WORKDIR /app
 COPY . .
 RUN go mod tidy
 RUN go build -o mainrun
 
-# runner
+#runner
 FROM alpine:latest
 RUN apk --no-cache add ca-certificates
 RUN apk update && apk upgrade && \
@@ -14,6 +17,8 @@ RUN apk update && apk upgrade && \
 
 WORKDIR /app
 
+STOPSIGNAL SIGINT
 EXPOSE 8080
 COPY --from=builder /app/mainrun /app
+COPY --from=builder /app/app/config/ /app/app/config/
 CMD /app/mainrun

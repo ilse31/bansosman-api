@@ -27,34 +27,28 @@ import (
 	_repoUsers "bansosman/drivers/mysql/users"
 	_GeoRepo "bansosman/drivers/thirdparty/ipapi"
 
-	"fmt"
+	//mysql
+	_dbDriver "bansosman/drivers/mysql"
 	"log"
 
 	"github.com/labstack/echo/v4"
-	"gorm.io/driver/mysql"
+	"github.com/spf13/viper"
 	"gorm.io/gorm"
 )
 
-// func init() {
-// 	viper.SetConfigFile(`./app/json.json`)
-// 	err := viper.ReadInConfig()
-// 	if err != nil {
-// 		panic(err)
-// 	}
-// }
-
-func InitDB(status string) *gorm.DB {
-	db := "bansosman"
-	connectionString := fmt.Sprintf("root:@tcp(127.0.0.1:3306)/%s?parseTime=True", db)
-
-	var err error
-	DB, err := gorm.Open(mysql.Open(connectionString), &gorm.Config{})
-
+func init() {
+	viper.SetConfigName("docker-config")
+	viper.AddConfigPath("./app/config/")
+	viper.AutomaticEnv()
+	viper.SetConfigType("json")
+	err := viper.ReadInConfig()
 	if err != nil {
 		panic(err)
 	}
+}
 
-	DB.AutoMigrate(
+func dbMigrate(db *gorm.DB) {
+	db.AutoMigrate(
 		&_repoUsers.Users{},
 		&_repoApbn.Apbns{},
 		&_repoDerahs.Daerahs{},
@@ -62,19 +56,25 @@ func InitDB(status string) *gorm.DB {
 		// &_repoKab.Kabs{},
 	)
 	roles := []_repoAdmin.Roles{{ID: 1, Name: "Owner"}, {ID: 2, Name: "Admin"}}
-	DB.Create(&roles)
-	return DB
+	db.Create(&roles)
 }
 
 func main() {
-	db := InitDB("")
+
+	configDB := _dbDriver.ConfigDB{
+		DB_Username: viper.GetString(`database.user`),
+		DB_Password: viper.GetString(`database.pass`),
+		DB_Host:     viper.GetString(`database.host`),
+		DB_Port:     viper.GetString(`database.port`),
+		DB_Database: viper.GetString(`database.name`),
+	}
+	db := configDB.InitDB()
+	dbMigrate(db)
 	e := echo.New()
 	mid.LogMiddlewareInit(e)
-	jwSecret := "qwerty12345"
-	jwtint := 2
 	configJWT := mid.ConfigJwt{
-		SecretJwT: jwSecret,
-		Expired:   int64(jwtint),
+		SecretJwT: viper.GetString(`jwt.secret`),
+		Expired:   int64(viper.GetInt(`jwt.expired`)),
 	}
 
 	//* factory of domain
@@ -86,7 +86,7 @@ func main() {
 	GeoRepo := _GeoRepo.NewIpAPI()
 	// ?admin
 	adminRepo := _repoAdmin.NewMySQLRepository(db)
-	adminServe := _ServAdmin.NewUserService(adminRepo, &configJWT)
+	adminServe := _ServAdmin.NewadminService(adminRepo, &configJWT)
 	adminHandler := _handlerAdmin.NewUserController(adminServe)
 	// ?apbn
 	apbnRepo := _repoApbn.NewRepoMysql(db)
