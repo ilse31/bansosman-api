@@ -8,8 +8,8 @@ import (
 
 type Users struct {
 	gorm.Model
-	ID        uint `gorm:"primaryKey"`
-	NIK       int
+	ID        uint   `gorm:"primaryKey"`
+	NIK       int    `gorm:"unique"`
 	Name      string `gorm:"unique"`
 	Email     string
 	Password  string
@@ -25,7 +25,6 @@ func ToDomain(rec Users) users.Domain {
 		Name:      rec.Name,
 		Email:     rec.Email,
 		Password:  rec.Password,
-		FotoRumah: rec.FotoRumah,
 		Gaji:      rec.Gaji,
 		Alamat:    rec.Alamat,
 		CreatedAt: rec.CreatedAt,
@@ -39,7 +38,6 @@ func (rec *Users) toDomain() users.Domain {
 		Name:      rec.Name,
 		Email:     rec.Email,
 		Password:  rec.Password,
-		FotoRumah: rec.FotoRumah,
 		Gaji:      rec.Gaji,
 		Alamat:    rec.Alamat,
 		CreatedAt: rec.CreatedAt,
@@ -49,25 +47,23 @@ func (rec *Users) toDomain() users.Domain {
 
 func FromDomain(domain users.Domain) Users {
 	return Users{
-		NIK:       domain.NIK,
-		Name:      domain.Name,
-		Email:     domain.Email,
-		Password:  domain.Password,
-		FotoRumah: domain.FotoRumah,
-		Gaji:      domain.Gaji,
-		Alamat:    domain.Alamat,
+		NIK:      domain.NIK,
+		Name:     domain.Name,
+		Email:    domain.Email,
+		Password: domain.Password,
+		Gaji:     domain.Gaji,
+		Alamat:   domain.Alamat,
 	}
 }
 func FromDomainUpdate(domain users.Domain) Users {
 	return Users{
-		ID:        uint(domain.ID),
-		NIK:       domain.NIK,
-		Name:      domain.Name,
-		Email:     domain.Email,
-		Password:  domain.Password,
-		FotoRumah: domain.FotoRumah,
-		Gaji:      domain.Gaji,
-		Alamat:    domain.Alamat,
+		ID:       uint(domain.ID),
+		NIK:      domain.NIK,
+		Name:     domain.Name,
+		Email:    domain.Email,
+		Password: domain.Password,
+		Gaji:     domain.Gaji,
+		Alamat:   domain.Alamat,
 	}
 }
 

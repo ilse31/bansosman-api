@@ -11,7 +11,6 @@ type Users struct {
 	Name      string    `json:"name"`
 	Email     string    `json:"email"`
 	Password  string    `json:"password"`
-	FotoRumah string    `json:"foto_rumah"`
 	Gaji      int       `json:"gaji"`
 	Alamat    string    `json:"alamat"`
 	CreatedAt time.Time `json:"created_at"`
@@ -25,7 +24,6 @@ func FromDomain(domain users.Domain) Users {
 		Name:      domain.Name,
 		Email:     domain.Email,
 		Password:  domain.Password,
-		FotoRumah: domain.FotoRumah,
 		Gaji:      domain.Gaji,
 		Alamat:    domain.Alamat,
 		CreatedAt: domain.CreatedAt,

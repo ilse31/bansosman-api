@@ -31,24 +31,22 @@ type UsersLogin struct {
 
 func ToDomain(request UsersRegist) *users.Domain {
 	return &users.Domain{
-		NIK:       request.NIK,
-		Name:      request.Name,
-		Email:     request.Email,
-		Password:  request.Password,
-		FotoRumah: request.FotoRumah,
-		Gaji:      request.Gaji,
-		Alamat:    request.Alamat,
+		NIK:      request.NIK,
+		Name:     request.Name,
+		Email:    request.Email,
+		Password: request.Password,
+		Gaji:     request.Gaji,
+		Alamat:   request.Alamat,
 	}
 }
 func ToDomainUpdate(request UsersUpdate) *users.Domain {
 	return &users.Domain{
-		ID:        request.ID,
-		NIK:       request.NIK,
-		Name:      request.Name,
-		Email:     request.Email,
-		Password:  request.Password,
-		FotoRumah: request.FotoRumah,
-		Gaji:      request.Gaji,
-		Alamat:    request.Alamat,
+		ID:       request.ID,
+		NIK:      request.NIK,
+		Name:     request.Name,
+		Email:    request.Email,
+		Password: request.Password,
+		Gaji:     request.Gaji,
+		Alamat:   request.Alamat,
 	}
 }

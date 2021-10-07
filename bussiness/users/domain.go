@@ -1,6 +1,8 @@
 package users
 
-import "time"
+import (
+	"time"
+)
 
 //Domain Layer->Acuan utama domain
 type Domain struct {
@@ -9,11 +11,13 @@ type Domain struct {
 	Name      string
 	Email     string
 	Password  string
-	FotoRumah string
 	Gaji      int
 	Alamat    string
 	CreatedAt time.Time
 	UpdatedAt time.Time
+}
+type Photo struct {
+	Path string
 }
 
 //Logical Interface

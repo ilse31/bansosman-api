@@ -150,7 +150,6 @@ func TestLogin(t *testing.T) {
 			Name:      "iniadmin",
 			Email:     "",
 			Password:  "wrong",
-			FotoRumah: "",
 			Gaji:      0,
 			Alamat:    "",
 			CreatedAt: time.Time{},
