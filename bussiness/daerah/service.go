@@ -41,8 +41,8 @@ func (servApBn *serviceDaerah) FindByID(id int) (*Domain, error) {
 	return result, nil
 }
 
-func (servApBn *serviceDaerah) Update(daerahs *Domain) (*Domain, error) {
-	result, err := servApBn.repository.Update(daerahs)
+func (servApBn *serviceDaerah) Update(daerahs *Domain, id int) (*Domain, error) {
+	result, err := servApBn.repository.Update(daerahs, id)
 	if err != nil {
 		return &Domain{}, err
 	}

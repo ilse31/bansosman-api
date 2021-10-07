@@ -2,6 +2,7 @@ version: "3"
 
 services:
   bansosman:
+    container_name: bansosman
     build: .
     restart: "no"
     ports:
@@ -10,11 +11,14 @@ services:
   mysql-bansosman:
     image: mariadb:10.1
     hostname: mysql.docker
-    command: --init-file /app/config/init.sql
+    command: --init-file /app/app/config/init.sql
     volumes:
-      - ./init.sql:/app/config/init.sql
+      - ./init.sql:/app/app/config/init.sql
     environment:
+      MYSQL_ROOT_USER: root
+      MYSQL_ROOT_PASSWORD: password
       MYSQL_DATABASE: bansosman
+      MYSQL_PASSWORD: password
       MYSQL_USER: root
     ports:
       - 3336:3306

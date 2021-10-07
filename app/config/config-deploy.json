@@ -3,11 +3,11 @@
     "address": ":8080"
   },
   "database": {
-    "host": "host.docker.internal",
-    "port": "3306",
-    "user": "root",
+    "host": "",
+    "port": "",
+    "user": "",
     "pass": "",
-    "name": "bansosman"
+    "name": ""
   },
   "jwt": {
     "secret": "qwerty12345678910",

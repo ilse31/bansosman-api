@@ -1,0 +1,16 @@
+{
+  "server": {
+    "address": ":8080"
+  },
+  "database": {
+    "host": "mysql.docker",
+    "port": "3306",
+    "user": "root",
+    "pass": "password",
+    "name": "bansosman"
+  },
+  "jwt": {
+    "secret": "qwerty12345678910",
+    "expired": 2
+  }
+}
