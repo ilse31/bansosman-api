@@ -3,13 +3,12 @@ name: on-push-master
 on:
   pull_request:
     branches:
-      - "master"
+      - "main"
   push:
     branches:
       - "master"
-      - "develop"
-      - "unit-tests"
-      - "feature/*"
+      - "dev"
+      - "unit-test"
 
 jobs:
   api-test:
