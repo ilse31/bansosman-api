@@ -18,6 +18,7 @@ var (
 	daerahRepository _mockDaerah.Repository
 	daerahDomain     daerah.Domain
 	daerahServe      daerah.Service
+	daerahDomain2    daerah.Domain2
 )
 
 func TestMain(m *testing.M) {
@@ -30,6 +31,10 @@ func TestMain(m *testing.M) {
 		City:      "adwad",
 		CreatedAt: time.Now(),
 		UpdatedAt: time.Now(),
+	}
+	geoDomain = geolocation.Domain{
+		IP:   "0.0.0.0",
+		City: "Test City",
 	}
 	m.Run()
 }
@@ -126,5 +131,34 @@ func TestUpdate(t *testing.T) {
 		_, err := daerahServe.Update(&daerahDomain, daerahDomain.ID)
 
 		assert.NotNil(t, err)
+	})
+}
+
+func TestGetByIP(t *testing.T) {
+	t.Run("Valid Test", func(t *testing.T) {
+		MockgeoRepos.On("GetLocationByIP").Return(geoDomain, nil).Once()
+		daerahRepository.On("FindByCity", mock.AnythingOfType("string")).Return([]daerah.Domain2{daerahDomain2}, nil).Once()
+
+		resp, err := daerahServe.GetByIP()
+
+		assert.Nil(t, err)
+		assert.Contains(t, resp, daerahDomain2)
+	})
+	t.Run("Invalid Test | Not Found", func(t *testing.T) {
+		MockgeoRepos.On("GetLocationByIP").Return(geolocation.Domain{}, assert.AnError).Once()
+
+		resp, err := daerahServe.GetByIP()
+
+		assert.NotNil(t, err)
+		assert.NotContains(t, resp, daerahDomain2)
+	})
+	t.Run("Invalid Test | Not Found", func(t *testing.T) {
+		MockgeoRepos.On("GetLocationByIP").Return(geoDomain, nil).Once()
+		daerahRepository.On("FindByCity", mock.AnythingOfType("string")).Return([]daerah.Domain2{}, assert.AnError).Once()
+
+		resp, err := daerahServe.GetByIP()
+
+		assert.NotNil(t, err)
+		assert.NotContains(t, resp, daerahDomain2)
 	})
 }
