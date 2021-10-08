@@ -16,8 +16,8 @@ func NewServe(repoDaerah Repository, geoRepos geolocation.Repository) Service {
 	}
 }
 
-func (servApBn *serviceDaerah) Append(daerahs *Domain) (*Domain, error) {
-	result, err := servApBn.repository.Insert(daerahs)
+func (servDaerah *serviceDaerah) Append(daerahs *Domain) (*Domain, error) {
+	result, err := servDaerah.repository.Insert(daerahs)
 	if err != nil {
 		return &Domain{}, err
 	}
@@ -25,32 +25,32 @@ func (servApBn *serviceDaerah) Append(daerahs *Domain) (*Domain, error) {
 	return result, nil
 }
 
-func (servApBn *serviceDaerah) FindAll() ([]Domain, error) {
-	result, err := servApBn.repository.FindAll()
+func (servDaerah *serviceDaerah) FindAll() ([]Domain, error) {
+	result, err := servDaerah.repository.FindAll()
 	if err != nil {
 		return []Domain{}, err
 	}
 	return result, nil
 }
 
-func (servApBn *serviceDaerah) FindByID(id int) (*Domain, error) {
-	result, err := servApBn.repository.FindByID(id)
+func (servDaerah *serviceDaerah) FindByID(id int) (*Domain, error) {
+	result, err := servDaerah.repository.FindByID(id)
 	if err != nil {
 		return &Domain{}, err
 	}
 	return result, nil
 }
 
-func (servApBn *serviceDaerah) Update(daerahs *Domain, id int) (*Domain, error) {
-	result, err := servApBn.repository.Update(daerahs, id)
+func (servDaerah *serviceDaerah) Update(daerahs *Domain, id int) (*Domain, error) {
+	result, err := servDaerah.repository.Update(daerahs, id)
 	if err != nil {
 		return &Domain{}, err
 	}
 	return result, nil
 }
 
-func (servApBn *serviceDaerah) Delete(daerahs *Domain, id int) (string, error) {
-	result, err := servApBn.repository.Delete(daerahs, id)
+func (servDaerah *serviceDaerah) Delete(daerahs *Domain, id int) (string, error) {
+	result, err := servDaerah.repository.Delete(daerahs, id)
 	if err != nil {
 		return "Fail to delete.", err
 	}
