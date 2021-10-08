@@ -69,20 +69,3 @@ func (handler *Daerahcontroller) GetByIP(c echo.Context) error {
 	}
 	return controllers.NewSuccessResponse(c, data)
 }
-
-func (handler *Daerahcontroller) Delete(echoConteks echo.Context) error {
-	idstr := echoConteks.Param("id")
-	id, err := strconv.Atoi(idstr)
-	if err != nil {
-		return echoConteks.JSON(http.StatusBadGateway, err)
-	}
-	user, err1 := handler.service.FindByID(id)
-	if err1 != nil {
-		return echoConteks.JSON(http.StatusNotFound, err1)
-	}
-	res, err2 := handler.service.Delete(user, id)
-	if err2 != nil {
-		return echoConteks.JSON(http.StatusBadRequest, err2)
-	}
-	return echoConteks.JSON(http.StatusOK, res)
-}

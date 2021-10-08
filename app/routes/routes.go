@@ -5,6 +5,7 @@ import (
 	"bansosman/app/controllers/apbn"
 	"bansosman/app/controllers/daerah"
 	"bansosman/app/controllers/users"
+	m "bansosman/app/middleware"
 
 	"github.com/labstack/echo/v4"
 	"github.com/labstack/echo/v4/middleware"
@@ -38,7 +39,6 @@ func (handler *HandlerRoute) RouteRegister(e *echo.Echo) {
 	daerah.GET("/:id", handler.Daerahhandler.ReadID)
 	daerah.GET("/find-ip", handler.Daerahhandler.GetByIP)
 
-	//auth val
 	users := e.Group("user")
 	users.DELETE("/:id", handler.UsersHandler.Delete)
 	users.GET("/alluser", handler.UsersHandler.ReadAll)
@@ -50,6 +50,6 @@ func (handler *HandlerRoute) RouteRegister(e *echo.Echo) {
 	apbns.POST("/input", handler.Apbnhandler.Create)
 	apbns.GET("/all", handler.Apbnhandler.ReadAll)
 	apbns.GET("/:id", handler.Apbnhandler.ReadID)
-	apbns.PUT("/update/:id", handler.Apbnhandler.Update)
+	apbns.PUT("/update/:id", handler.Apbnhandler.Update, m.RoleValidation("admin"))
 	apbns.DELETE("/:id", handler.Apbnhandler.Delete)
 }
